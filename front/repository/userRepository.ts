@@ -10,6 +10,6 @@ export default class UserRepository extends RepositoryFactory<User> {
    * @param fetch - The fetch function used for making API requests.
    */
   constructor(fetch: $Fetch<User, NitroFetchRequest>) {
-    super(Resource.Users, fetch);
+    super(Resource.User, fetch);
   }
 }

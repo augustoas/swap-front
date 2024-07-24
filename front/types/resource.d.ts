@@ -1,6 +1,6 @@
 export enum Resource {
   Auth = 'auth',
-  Users = 'users',
+  User = 'users',
 }
 
 type BaseTable = {
