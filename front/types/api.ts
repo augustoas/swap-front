@@ -1,46 +1,46 @@
-export type ApiResponse<T> = {
-  data?: T;
-  error?: any;
-  status: number;
-  statusText: string;
-  message?: string;
-};
+// export type ApiResponse<T> = {
+//   data?: T;
+//   error?: any;
+//   status: number;
+//   statusText: string;
+//   message?: string;
+// };
 
 /**
- * Represents the API interface.
+ * Represents an API interface for performing CRUD operations on a resource of type T.
  */
-export interface ApiInterface {
+export interface ApiInterface<T> {
   /**
-   * Creates a new item.
-   * @param data - The data for the new item.
-   * @returns A promise that resolves with the created item.
+   * Creates a new resource.
+   * @param data - The data for the new resource.
+   * @returns A promise that resolves when the resource is created.
    */
-  create(data: any): Promise<any>;
+  create(data: T): Promise<void>;
 
   /**
-   * Finds an item by its ID.
-   * @param id - The ID of the item to find.
-   * @returns A promise that resolves with the found item.
+   * Finds a resource by its ID.
+   * @param id - The ID of the resource to find.
+   * @returns A promise that resolves with the found resource, or null if not found.
    */
-  findOne(id: number): Promise<any>;
+  findOne(id: string): Promise<T | null>;
 
   /**
-   * Finds all items.
-   * @returns A promise that resolves with an array of items.
+   * Finds all resources.
+   * @returns A promise that resolves with an array of all resources.
    */
-  findAll(): Promise<any[]>;
+  findAll(): Promise<T[]>;
 
   /**
-   * Updates an existing item.
-   * @param data - The updated data for the item.
-   * @returns A promise that resolves with the updated item.
+   * Updates an existing resource.
+   * @param data - The updated data for the resource.
+   * @returns A promise that resolves when the resource is updated.
    */
-  update(data: any): Promise<any>;
+  update(data: T): Promise<void>;
 
   /**
-   * Deletes an item by its ID.
-   * @param id - The ID of the item to delete.
-   * @returns A promise that resolves when the item is deleted.
+   * Deletes a resource by its ID.
+   * @param id - The ID of the resource to delete.
+   * @returns A promise that resolves when the resource is deleted.
    */
-  delete(id: number): Promise<any>;
+  delete(id: string): Promise<void>;
 }
