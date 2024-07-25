@@ -1,3 +1,5 @@
+import type { NitroFetchRequest, $Fetch } from 'nitropack';
+import RepositoryFactory from './repositoryFactory';
 import { Resource, User } from "@/types/resource";
 
 /**
