@@ -6,7 +6,7 @@ import { Resource } from "@/types/resource";
  * Represents a generic repository factory that implements the ApiInterface.
  * @template T - The type of data returned by the repository methods.
  */
-export default class RepositoryFactory<T> implements ApiInterface {
+export default class RepositoryFactory<T> implements ApiInterface<T> {
   protected resource: Resource;
   protected fetch: $Fetch<T, NitroFetchRequest>;
 
@@ -22,26 +22,24 @@ export default class RepositoryFactory<T> implements ApiInterface {
 
   /**
    * Creates a new resource.
-   * @param {any} data - The data used to create the resource.
-   * @returns {Promise<T>} A promise that resolves to the created resource.
+   * @param {T} data - The data used to create the resource.
+   * @returns {Promise<void>} A promise that resolves when the resource is created.
    */
-  public async create(data: any): Promise<T> {
-    const response = await this.fetch<T>(this.resource, {
+  public async create(data: T): Promise<void> {
+    await this.fetch<void>(this.resource, {
       method: "POST",
       body: data,
     });
-    return response;
   }
 
   /**
    * Finds a resource by its ID.
-   * @param {number} id - The ID of the resource to find.
-   * @returns {Promise<T>} A promise that resolves to the found resource.
+   * @param {string} id - The ID of the resource to find.
+   * @returns {Promise<T | null>} A promise that resolves to the found resource.
    */
-  public async findOne(id: number): Promise<T> {
-    const response = await this.fetch<T>(this.resource, {
+  public async findOne(id: string): Promise<T | null> {
+    const response = await this.fetch<T | null>(`${this.resource}/${id}`, {
       method: "GET",
-      params: { id },
     });
     return response;
   }
@@ -59,27 +57,24 @@ export default class RepositoryFactory<T> implements ApiInterface {
 
   /**
    * Updates a resource.
-   * @param {any} data - The data used to update the resource.
-   * @returns {Promise<T>} A promise that resolves to the updated resource.
+   * @param {T} data - The data used to update the resource.
+   * @returns {Promise<void>} A promise that resolves when the resource is updated.
    */
-  public async update(data: any): Promise<T> {
-    const response = await this.fetch<T>(this.resource, {
+  public async update(data: T): Promise<void> {
+    await this.fetch<void>(this.resource, {
       method: "PUT",
       body: data,
     });
-    return response;
   }
 
   /**
    * Deletes a resource by its ID.
-   * @param {number} id - The ID of the resource to delete.
-   * @returns {Promise<T>} A promise that resolves to the deleted resource.
+   * @param {string} id - The ID of the resource to delete.
+   * @returns {Promise<void>} A promise that resolves when the resource is deleted.
    */
-  public async delete(id: number): Promise<T> {
-    const response = await this.fetch<T>(this.resource, {
+  public async delete(id: string): Promise<void> {
+    await this.fetch<void>(`${this.resource}/${id}`, {
       method: "DELETE",
-      params: { id },
     });
-    return response;
   }
 }
