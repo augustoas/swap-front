@@ -1,10 +1,10 @@
 import type { NitroFetchRequest, $Fetch } from 'nitropack';
-import { ApiInterface } from "@/types/api";
-import { Resource } from "@/types/resource";
+import type { ApiResponse, ApiInterface } from "@/types/api";
+import type { Resource } from "@/types/resource";
 
 /**
- * Represents a generic repository factory that implements the ApiInterface.
- * @template T - The type of data returned by the repository methods.
+ * Represents a generic repository factory that implements the `ApiInterface` interface.
+ * @template T - The type of data handled by the repository.
  */
 export default class RepositoryFactory<T> implements ApiInterface<T> {
   protected resource: Resource;
@@ -13,7 +13,7 @@ export default class RepositoryFactory<T> implements ApiInterface<T> {
   /**
    * Creates an instance of RepositoryFactory.
    * @param {Resource} resource - The resource associated with the repository.
-   * @param {($Fetch<T, NitroFetchRequest>)} fetch - The fetch function used to make API requests.
+   * @param {$Fetch<T, NitroFetchRequest>} fetch - The fetch function used to make API requests.
    */
   constructor(resource: Resource, fetch: $Fetch<T, NitroFetchRequest>) {
     this.resource = resource;
@@ -22,59 +22,87 @@ export default class RepositoryFactory<T> implements ApiInterface<T> {
 
   /**
    * Creates a new resource.
-   * @param {T} data - The data used to create the resource.
+   * @param {any} data - The data used to create the resource.
    * @returns {Promise<void>} A promise that resolves when the resource is created.
+   * @throws {Error} If an unexpected error occurs.
    */
-  public async create(data: T): Promise<void> {
-    await this.fetch<void>(this.resource, {
-      method: "POST",
-      body: data,
-    });
+  public async create(data: any): Promise<void> {
+    try {
+      const response = await this.fetch<void>(this.resource, {
+        method: "POST",
+        body: data,
+      });
+      return response;
+    } catch (error) {
+      throw new Error('Ha ocurrido un error inesperado.', { cause: error });
+    }
   }
 
   /**
    * Finds a resource by its ID.
    * @param {string} id - The ID of the resource to find.
-   * @returns {Promise<T | null>} A promise that resolves to the found resource.
+   * @returns {Promise<ApiResponse<T> | null>} A promise that resolves with the found resource or null if not found.
+   * @throws {Error} If an unexpected error occurs.
    */
-  public async findOne(id: string): Promise<T | null> {
-    const response = await this.fetch<T | null>(`${this.resource}/${id}`, {
-      method: "GET",
-    });
-    return response;
+  public async findOne(id: string): Promise<ApiResponse<T> | null> {
+    try {
+      const response = await this.fetch<ApiResponse<T> | null>(`${this.resource}/${id}`, {
+        method: "GET",
+      });
+      return response;
+    } catch (error) {
+      throw new Error('Ha ocurrido un error inesperado.', { cause: error });
+    }
   }
 
   /**
    * Finds all resources.
-   * @returns {Promise<T[]>} A promise that resolves to an array of all resources.
+   * @returns {Promise<ApiResponse<T[]>>} A promise that resolves with an array of resources.
+   * @throws {Error} If an unexpected error occurs.
    */
-  public async findAll(): Promise<T[]> {
-    const response = await this.fetch<T[]>(this.resource, {
-      method: "GET",
-    });
-    return response;
+  public async findAll(): Promise<ApiResponse<T[]>> {
+    try {
+      const response = await this.fetch<ApiResponse<T[]>>(this.resource, {
+        method: "GET",
+      });
+      return response;
+    } catch (error) {
+      throw new Error('Ha ocurrido un error inesperado.', { cause: error });
+    }
   }
 
   /**
    * Updates a resource.
-   * @param {T} data - The data used to update the resource.
+   * @param {any} data - The data used to update the resource.
    * @returns {Promise<void>} A promise that resolves when the resource is updated.
+   * @throws {Error} If an unexpected error occurs.
    */
-  public async update(data: T): Promise<void> {
-    await this.fetch<void>(this.resource, {
-      method: "PUT",
-      body: data,
-    });
+  public async update(data: any): Promise<void> {
+    try {
+      const response = await this.fetch<void>(this.resource, {
+        method: "PUT",
+        body: data,
+      });
+      return response;
+    } catch (error) {
+      throw new Error('Ha ocurrido un error inesperado.', { cause: error });
+    }
   }
 
   /**
    * Deletes a resource by its ID.
    * @param {string} id - The ID of the resource to delete.
    * @returns {Promise<void>} A promise that resolves when the resource is deleted.
+   * @throws {Error} If an unexpected error occurs.
    */
   public async delete(id: string): Promise<void> {
-    await this.fetch<void>(`${this.resource}/${id}`, {
-      method: "DELETE",
-    });
+    try {
+      const response = await this.fetch<void>(`${this.resource}/${id}`, {
+        method: "DELETE",
+      });
+      return response;
+    } catch (error) {
+      throw new Error('Ha ocurrido un error inesperado.', { cause: error });
+    }
   }
 }
