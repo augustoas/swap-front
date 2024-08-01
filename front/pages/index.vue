@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-  import UserRepository from '~/repositories/UserRepository';
+  import UserRepository from '~/repositories/userRepository';
 
   const { $api } = useNuxtApp();
   const userRepository = new UserRepository($api);

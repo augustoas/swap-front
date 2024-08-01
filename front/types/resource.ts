@@ -16,6 +16,7 @@ export type User = BaseTable & {
   firstname: string;
   lastname: string;
   email: string;
+  token?: string;
   gender?: string;
   birthdate?: Date;
 }; 
