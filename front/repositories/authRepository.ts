@@ -24,7 +24,43 @@ export default class AuthRepository extends RepositoryFactory<User> {
    */
   public async login(data: any): Promise<ApiResponse<{user: User, token: string}>> {
     try {
-      const response = await this.fetch<any>(this.resource + '/signin', {
+      const response = await this.fetch<ApiResponse<{user: User, token: string}>>(this.resource + '/signin', {
+        method: "POST",
+        body: data,
+      });
+      return response;
+    } catch (error) {
+      throw new Error('Ha ocurrido un error inesperado.', { cause: error });
+    }
+  }
+
+  public async register(data: any): Promise<ApiResponse<User>> {
+    try {
+      const response = await this.fetch<ApiResponse<User>>(this.resource + '/signup', {
+        method: "POST",
+        body: data,
+      });
+      return response;
+    } catch (error) {
+      throw new Error('Ha ocurrido un error inesperado.', { cause: error });
+    }
+  }
+
+  public async forgotPassword(data: any): Promise<ApiResponse<any>> {
+    try {
+      const response = await this.fetch<ApiResponse<any>>(this.resource + '/forgotpassword', {
+        method: "POST",
+        body: data,
+      });
+      return response;
+    } catch (error) {
+      throw new Error('Ha ocurrido un error inesperado.', { cause: error });
+    }
+  }
+
+  public async resetPassword(data: any): Promise<ApiResponse<any>> {
+    try {
+      const response = await this.fetch<ApiResponse<any>>(this.resource + '/resetpassword', {
         method: "POST",
         body: data,
       });
