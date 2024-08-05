@@ -18,7 +18,10 @@
             type="password"
             required
           ></v-text-field>
-          <v-btn class="mt-4" color="primary" type="submit" block>Login</v-btn>
+          <v-btn variant="text" color="secondary text-caption"><NuxtLink class="font-weight-black" to="/forgotPassword"> Forgot password?</NuxtLink></v-btn>
+          <v-btn block color="primary" type="submit">Login</v-btn>
+          <v-btn variant="text" color="secondary text-caption">Don't have an account? <NuxtLink class="font-weight-black" to="/register"> Sign up</NuxtLink></v-btn>
+          
           <v-divider class="my-4"></v-divider>
           <v-btn class="mb-4" color="red darken-1" block>
             <v-icon left>mdi-google</v-icon>
